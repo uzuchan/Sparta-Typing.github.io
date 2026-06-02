@@ -26,7 +26,7 @@
         style.href = `${base}assets/main.css`;
         document.head.append(style);
 
-        await import(`${base}assets/main.js`);
+        await import(/* @vite-ignore */ `${base}assets/main.js`);
       } else {
         await import("/src/main.tsx");
       }
