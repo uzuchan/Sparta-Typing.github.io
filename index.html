@@ -16,6 +16,20 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      const isGitHubPages = location.hostname.endsWith("github.io");
+
+      if (isGitHubPages) {
+        const base = "/Sparta-Typing.github.io/";
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href = `${base}assets/main.css`;
+        document.head.append(style);
+
+        await import(`${base}assets/main.js`);
+      } else {
+        await import("/src/main.tsx");
+      }
+    </script>
   </body>
 </html>

@@ -13,6 +13,9 @@ export default defineConfig({
     chunkSizeWarningLimit: 800,
     rollupOptions: {
       output: {
+        entryFileNames: "assets/[name].js",
+        chunkFileNames: "assets/[name].js",
+        assetFileNames: "assets/[name][extname]",
         // ベンダーを分離してメインバンドルを軽量化・キャッシュ効率を改善する．
         codeSplitting: {
           groups: [
