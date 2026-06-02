@@ -1,0 +1,93 @@
+import { useEffect, useRef } from "react";
+import type { Direction } from "../../types";
+
+type Opts = {
+  enabled: boolean;
+  direction: Direction;
+  onChar: (ch: string) => void;
+  onBackspace: () => void;
+  onEscape: () => void;
+};
+
+function allowedChar(direction: Direction, key: string): boolean {
+  const k = key.toLowerCase();
+  if (k.length !== 1) return false;
+  if (direction === "en_to_ja") return /^[a-z-]$/.test(k);
+  return /^[a-z0-9\- ]$/.test(k);
+}
+
+export function useTypingInput(opts: Opts) {
+  const hiddenRef = useRef<HTMLInputElement | null>(null);
+  const lastValueRef = useRef("");
+
+  // physical keyboard
+  useEffect(() => {
+    if (!opts.enabled) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        opts.onEscape();
+        return;
+      }
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        opts.onBackspace();
+        return;
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (!allowedChar(opts.direction, k)) return;
+      e.preventDefault();
+      opts.onChar(k);
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [opts.enabled, opts.direction, opts.onChar, opts.onBackspace, opts.onEscape]);
+
+  // mobile hidden input: diff its value char by char
+  const onHiddenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const prev = lastValueRef.current;
+
+    if (value.length < prev.length) {
+      opts.onBackspace();
+    } else {
+      const added = value.slice(prev.length);
+      for (const ch of added) {
+        const k = ch.toLowerCase();
+        if (allowedChar(opts.direction, k)) opts.onChar(k);
+      }
+    }
+    // reset to keep it from growing; keeps IME off
+    lastValueRef.current = "";
+    e.target.value = "";
+  };
+
+  const focusHidden = () => {
+    hiddenRef.current?.focus();
+  };
+
+  const hiddenInputProps = {
+    ref: hiddenRef,
+    type: "text",
+    inputMode: "text" as const,
+    autoComplete: "off",
+    autoCapitalize: "off",
+    autoCorrect: "off",
+    spellCheck: false,
+    "aria-hidden": true,
+    onChange: onHiddenChange,
+    style: {
+      position: "absolute" as const,
+      opacity: 0,
+      pointerEvents: "none" as const,
+      height: 1,
+      width: 1,
+      fontSize: 16,
+    },
+  };
+
+  return { hiddenInputProps, focusHidden };
+}
