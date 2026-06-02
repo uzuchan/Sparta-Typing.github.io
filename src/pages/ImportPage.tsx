@@ -9,26 +9,26 @@ import { navigate } from "../app/routes";
 import { Upload } from "../ui/icons";
 import type { Book, Unit, WordItem } from "../types";
 
-const SAMPLE_CSV = `arise,起:お/こる
-sit,座:すわ/る
-seat,座:すわ/らせる
-live,生:せい/活:かつ/を/送:おく/る
-reside,住:す/む
-last,続:つづ/く
-rush,急:いそ/いで/行:い/く
-roam,歩:ある/き/回:まわ/る
-proceed,進:すす/む
-drift,漂:ただよ/う
-emerge,現:あらわ/れる
-disappear,姿:すがた/を/消:け/す`;
+const SAMPLE_CSV = `glim,光:ひか/る
+brindle,縞:しま/模:も/様:よう
+lunet,小:ちい/さな/月:つき
+plock,軽:かる/く/叩:たた/く
+vire,緑:みどり/に/染:そ/まる
+nubble,丸:まる/い/小:こ/石:いし
+skarn,乾:かわ/いた/丘:おか
+flisk,素:す/早:ばや/く/動:うご/く
+drindle,細:ほそ/く/流:なが/れる
+orl,輪:わ/に/する
+mevra,静:しず/かな/風:かぜ
+tolm,遠:とお/く/響:ひび/く`;
 
 export function ImportPage() {
   const refreshBooks = useLibraryStore((s) => s.refreshBooks);
 
-  const [bookTitle, setBookTitle] = useState("Stock4500");
+  const [bookTitle, setBookTitle] = useState("Fictional Vocab Deck");
   const [part, setPart] = useState("Part1");
-  const [section, setSection] = useState("section3");
-  const [sectionTitle, setSectionTitle] = useState("さまざまな品詞");
+  const [section, setSection] = useState("section1");
+  const [sectionTitle, setSectionTitle] = useState("創作語サンプル");
   const [startNo, setStartNo] = useState(1);
   const [csv, setCsv] = useState(SAMPLE_CSV);
   const [error, setError] = useState<string | null>(null);

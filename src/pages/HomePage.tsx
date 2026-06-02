@@ -31,7 +31,7 @@ export function HomePage() {
         <div className="card empty">
           <BookOpen size={32} />
           <h3>まだ単語帳がありません</h3>
-          <p>CSVからStock4500などの単語帳を登録して始めましょう．</p>
+          <p>CSVからオリジナルの単語帳を登録して始めましょう．</p>
           <button className="primary" onClick={() => navigate({ name: "import" })}>
             <Upload size={16} /> はじめる
           </button>
