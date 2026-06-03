@@ -9,26 +9,45 @@ import { navigate } from "../app/routes";
 import { Upload } from "../ui/icons";
 import type { Book, Unit, WordItem } from "../types";
 
-const SAMPLE_CSV = `glim,光:ひか/る
-brindle,縞:しま/模:も/様:よう
-lunet,小:ちい/さな/月:つき
-plock,軽:かる/く/叩:たた/く
-vire,緑:みどり/に/染:そ/まる
-nubble,丸:まる/い/小:こ/石:いし
-skarn,乾:かわ/いた/丘:おか
-flisk,素:す/早:ばや/く/動:うご/く
-drindle,細:ほそ/く/流:なが/れる
-orl,輪:わ/に/する
-mevra,静:しず/かな/風:かぜ
-tolm,遠:とお/く/響:ひび/く`;
+const SAMPLE_CSV = `analyze,分析:ぶんせき/する
+evaluate,評価:ひょうか/する
+compare,比較:ひかく/する
+hypothesis,仮説:かせつ
+evidence,根拠:こんきょ
+contribution,貢献:こうけん
+limitation,限界:げんかい
+baseline,ベースライン
+dataset,データセット
+corpus,コーパス
+utterance,発話:はつわ
+annotation,注釈:ちゅうしゃく/付:づ/け
+tokenization,トークン/化:か
+preprocessing,前処理:まえしょり
+generalization,一般化:いっぱんか
+reproducibility,再現性:さいげんせい
+validity,妥当性:だとうせい
+reliability,信頼性:しんらいせい
+language acquisition,言語:げんご/獲得:かくとく
+language development,言語:げんご/発達:はったつ
+child-directed speech,子:こ/ども/向:む/け/発話:はつわ
+morphological analysis,形態素:けいたいそ/解析:かいせき
+particle,助詞:じょし
+case particle,格:かく/助詞:じょし
+grammaticality,文法性:ぶんぽうせい
+minimal pair,ミニマル/ペア
+construct,構築:こうちく/する
+train,学習:がくしゅう/させる
+validate,妥当性:だとうせい/を/確認:かくにん/する
+longitudinal,縦断的:じゅうだんてき/な`;
 
 export function ImportPage() {
   const refreshBooks = useLibraryStore((s) => s.refreshBooks);
 
-  const [bookTitle, setBookTitle] = useState("Fictional Vocab Deck");
-  const [part, setPart] = useState("Part1");
-  const [section, setSection] = useState("section1");
-  const [sectionTitle, setSectionTitle] = useState("創作語サンプル");
+  const [bookTitle, setBookTitle] = useState("子どもの言語発達とNLPの研究英語");
+  const [part, setPart] = useState("Part 1");
+  const [partTitle, setPartTitle] = useState("研究説明の基本語彙");
+  const [section, setSection] = useState("Section 1");
+  const [sectionTitle, setSectionTitle] = useState("研究発表で使う基礎単語");
   const [startNo, setStartNo] = useState(1);
   const [csv, setCsv] = useState(SAMPLE_CSV);
   const [error, setError] = useState<string | null>(null);
@@ -77,6 +96,7 @@ export function ImportPage() {
           parentUnitId,
           type: "part",
           name: part.trim(),
+          title: partTitle.trim(),
           orderIndex: 1,
         };
         units.push(partUnit);
@@ -145,6 +165,10 @@ export function ImportPage() {
           <label>
             Part
             <input value={part} onChange={(e) => setPart(e.target.value)} />
+          </label>
+          <label>
+            Part title
+            <input value={partTitle} onChange={(e) => setPartTitle(e.target.value)} />
           </label>
           <label>
             Section
