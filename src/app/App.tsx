@@ -42,23 +42,25 @@ export function App() {
           </div>
         </div>
 
-        <nav className="nav-actions">
-          {streak > 0 && (
-            <span className="streak-badge">
-              <Flame size={15} />
-              {streak}
-            </span>
-          )}
-          <button onClick={() => navigate({ name: "stats" })}>
-            <BarChart3 size={16} /> Stats
-          </button>
-          <button onClick={() => navigate({ name: "import" })}>
-            <Upload size={16} /> 登録
-          </button>
-          <button className="icon-btn ghost" onClick={toggleSound} aria-label="サウンド切替">
+        <div className="header-tools">
+          <nav className="nav-actions" aria-label="メインナビゲーション">
+            {streak > 0 && (
+              <span className="streak-badge">
+                <Flame size={15} />
+                {streak}
+              </span>
+            )}
+            <button onClick={() => navigate({ name: "stats" })}>
+              <BarChart3 size={16} /> Stats
+            </button>
+            <button onClick={() => navigate({ name: "import" })}>
+              <Upload size={16} /> 登録
+            </button>
+          </nav>
+          <button className="icon-btn ghost sound-toggle" onClick={toggleSound} aria-label="サウンド切替">
             {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
           </button>
-        </nav>
+        </div>
       </header>
 
       <main>
