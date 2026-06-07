@@ -38,6 +38,7 @@ const ROMAJI_MAP: Record<string, string[]> = {
   ふ: ["hu", "fu"],
   へ: ["he"],
   ほ: ["ho"],
+  ゔ: ["vu"],
 
   ま: ["ma"],
   み: ["mi"],
@@ -133,6 +134,45 @@ const ROMAJI_MAP: Record<string, string[]> = {
   ぴゅ: ["pyu"],
   ぴょ: ["pyo"],
 
+  うぁ: ["wha"],
+  うぃ: ["wi", "whi"],
+  うぇ: ["we", "whe"],
+  うぉ: ["who", "wo"],
+
+  ゔぁ: ["va"],
+  ゔぃ: ["vi"],
+  ゔぇ: ["ve"],
+  ゔぉ: ["vo"],
+
+  しぇ: ["she", "sye"],
+  じぇ: ["je", "zye", "jye"],
+  ちぇ: ["che", "tye", "cye"],
+
+  てぃ: ["thi", "ti"],
+  てゅ: ["thu"],
+  でぃ: ["dhi", "di"],
+  でゅ: ["dhu"],
+
+  ふぁ: ["fa", "fwa"],
+  ふぃ: ["fi", "fyi"],
+  ふぇ: ["fe", "fye"],
+  ふぉ: ["fo", "fwo"],
+
+  つぁ: ["tsa"],
+  つぃ: ["tsi"],
+  つぇ: ["tse"],
+  つぉ: ["tso"],
+
+  くぁ: ["qa", "kwa"],
+  くぃ: ["qi", "kwi"],
+  くぇ: ["qe", "kwe"],
+  くぉ: ["qo", "kwo"],
+
+  ぐぁ: ["gwa"],
+  ぐぃ: ["gwi"],
+  ぐぇ: ["gwe"],
+  ぐぉ: ["gwo"],
+
   ぁ: ["xa", "la"],
   ぃ: ["xi", "li"],
   ぅ: ["xu", "lu"],
@@ -145,6 +185,7 @@ const ROMAJI_MAP: Record<string, string[]> = {
 };
 
 const CONSONANT_RE = /^[bcdfghjklmnpqrstvwxyz]/;
+const VOWEL_RE = /[aiueo]$/;
 
 function unique(values: string[]): string[] {
   return [...new Set(values)];
@@ -155,23 +196,40 @@ function firstConsonant(value: string): string {
   return CONSONANT_RE.test(first) ? first : "";
 }
 
-export function kanaToRomajiCandidates(kana: string): string[] {
-  const normalized = kana.trim();
+function lastVowel(value: string): string {
+  return value.match(VOWEL_RE)?.[0] ?? "";
+}
 
-  function build(index: number): string[] {
+function normalizeKana(kana: string): string {
+  return kana
+    .trim()
+    .normalize("NFKC")
+    .replace(/[\u30a1-\u30f6]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+}
+
+export function kanaToRomajiCandidates(kana: string): string[] {
+  const normalized = normalizeKana(kana);
+
+  function build(index: number, prevVowel = ""): string[] {
     if (index >= normalized.length) return [""];
 
     const one = normalized.slice(index, index + 1);
     const two = normalized.slice(index, index + 2);
 
     if (one === "っ") {
-      const rest = build(index + 1);
+      const rest = build(index + 1, prevVowel);
       return unique(
         rest.flatMap((candidate) => {
           const consonant = firstConsonant(candidate);
           return consonant ? [`${consonant}${candidate}`] : [`xtu${candidate}`, `ltu${candidate}`];
         })
       );
+    }
+
+    if (one === "ー") {
+      const rest = build(index + 1, prevVowel);
+      const values = prevVowel ? ["-", prevVowel] : ["-"];
+      return unique(values.flatMap((head) => rest.map((tail) => `${head}${tail}`)));
     }
 
     const tokens: Array<{ size: number; values: string[] }> = [];
@@ -191,8 +249,8 @@ export function kanaToRomajiCandidates(kana: string): string[] {
     const results: string[] = [];
 
     for (const token of tokens) {
-      const rest = build(index + token.size);
       for (const head of token.values) {
+        const rest = build(index + token.size, lastVowel(head) || prevVowel);
         for (const tail of rest) {
           results.push(`${head}${tail}`);
         }
