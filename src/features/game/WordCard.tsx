@@ -1,5 +1,5 @@
 import { useGameStore } from "./gameStore";
-import { kanaToRomajiCandidates, normalizeKana } from "../../lib/romaji";
+import { kanaToRomajiCandidates } from "../../lib/romaji";
 import { MASTERY_META } from "../../lib/mastery";
 import type { GameQuestion } from "../../types";
 
@@ -15,6 +15,7 @@ export function WordCard(props: { q: GameQuestion; frame: number }) {
   const { q } = props;
   void props.frame;
   const input = useGameStore((s) => s.input);
+  const inputProgress = useGameStore((s) => s.inputProgress);
   const missFlash = useGameStore((s) => s.missFlash);
   const questionFlash = useGameStore((s) => s.questionFlash);
   const hintLevel = useGameStore((s) => s.hintLevel);
@@ -31,7 +32,7 @@ export function WordCard(props: { q: GameQuestion; frame: number }) {
 
   // target characters
   const target = q.targetText;
-  const doneLen = computeDoneLength(q, input, direction);
+  const doneLen = Math.min(inputProgress, target.length);
   const isSparta = mode === "sparta";
 
   const upcomingHidden = (idx: number): boolean => {
@@ -103,46 +104,4 @@ function poolLabel(pool: GameQuestion["pool"]): string {
   if (pool === "weak") return "weak";
   if (pool === "review") return "review";
   return "current";
-}
-
-// estimate how many target characters are "done" based on input length proportion
-function computeDoneLength(
-  q: GameQuestion,
-  input: string,
-  direction: GameQuestion["word"] extends never ? never : "en_to_ja" | "ja_to_en"
-): number {
-  if (input.length === 0) return 0;
-  if (direction === "ja_to_en") {
-    // english: 1:1 char mapping
-    return Math.min(input.length, q.targetText.length);
-  }
-  // japanese: approximate kana completed by matching romaji prefix per kana
-  const reading = q.answerReading;
-  const normalizedReading = normalizeKana(reading);
-  const normalizedInputKana = normalizeKana(input);
-
-  if (/[\u3041-\u3096\u30a1-\u30f6\uff66-\uff9f]/.test(input)) {
-    if (normalizedReading.startsWith(normalizedInputKana)) {
-      return Math.min(normalizedInputKana.length, reading.length);
-    }
-    return 0;
-  }
-
-  const candidates = kanaToRomajiCandidates(reading);
-  // find how many leading kana are fully represented
-  let best = 0;
-  for (let k = reading.length; k >= 1; k--) {
-    const prefixKana = reading.slice(0, k);
-    const prefixCands = kanaToRomajiCandidates(prefixKana);
-    if (prefixCands.some((c) => c === input.toLowerCase())) {
-      best = k;
-      break;
-    }
-  }
-  if (best > 0) return best;
-  // partial: estimate proportion
-  const anyCand = candidates.find((c) => c.startsWith(input.toLowerCase()));
-  if (!anyCand) return 0;
-  const ratio = input.length / anyCand.length;
-  return Math.floor(ratio * reading.length);
 }

@@ -2,6 +2,8 @@ type RomajiJudgeResult =
   | { type: "match"; completed: boolean; kanaProgress: number }
   | { type: "miss" };
 
+const KANA_RE = /[\u3041-\u3096\u30a1-\u30f6\uff66-\uff9f]/;
+
 const ROMAJI_MAP: Record<string, string[]> = {
   あ: ["a"],
   い: ["i"],
@@ -207,6 +209,10 @@ export function normalizeKana(kana: string): string {
     .replace(/[\u30a1-\u30f6]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0x60));
 }
 
+export function containsKana(text: string): boolean {
+  return KANA_RE.test(text);
+}
+
 export function kanaToRomajiCandidates(kana: string): string[] {
   const normalized = normalizeKana(kana);
 
@@ -268,7 +274,7 @@ export function judgeRomajiInput(kana: string, input: string): RomajiJudgeResult
   const normalizedKana = normalizeKana(kana);
   const normalizedInputKana = normalizeKana(input);
 
-  if (/[\u3041-\u3096\u30a1-\u30f6\uff66-\uff9f]/.test(input)) {
+  if (containsKana(input)) {
     if (!normalizedKana.startsWith(normalizedInputKana)) {
       return { type: "miss" };
     }
@@ -281,7 +287,6 @@ export function judgeRomajiInput(kana: string, input: string): RomajiJudgeResult
   }
 
   const candidates = kanaToRomajiCandidates(kana);
-
   const hasPrefix = candidates.some((candidate) => candidate.startsWith(normalizedInput));
 
   if (!hasPrefix) {
@@ -289,11 +294,23 @@ export function judgeRomajiInput(kana: string, input: string): RomajiJudgeResult
   }
 
   const completed = candidates.some((candidate) => candidate === normalizedInput);
+  let kanaProgress = completed ? normalizedKana.length : 0;
+
+  if (!completed) {
+    for (let k = normalizedKana.length; k >= 1; k--) {
+      const prefixKana = normalizedKana.slice(0, k);
+      const prefixCandidates = kanaToRomajiCandidates(prefixKana);
+      if (prefixCandidates.some((candidate) => normalizedInput.startsWith(candidate))) {
+        kanaProgress = k;
+        break;
+      }
+    }
+  }
 
   return {
     type: "match",
     completed,
-    kanaProgress: completed ? kana.length : 0,
+    kanaProgress,
   };
 }
 

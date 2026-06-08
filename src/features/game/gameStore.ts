@@ -67,6 +67,7 @@ type GameStore = {
 
   current: GameQuestion | null;
   input: string;
+  inputProgress: number;
   missCount: number;
   missFlash: boolean;
   questionFlash: boolean;
@@ -139,6 +140,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   current: null,
   input: "",
+  inputProgress: 0,
   missCount: 0,
   missFlash: false,
   questionFlash: false,
@@ -272,10 +274,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const s = get();
     if (s.phase !== "playing" || !s.current) return;
 
+    const nextInput = s.input + ch;
     const judge =
       s.direction === "en_to_ja"
-        ? judgeRomajiInput(s.current.answerReading, s.input + ch)
-        : judgeEnglishInput(s.current.word.question, s.input + ch);
+        ? judgeRomajiInput(s.current.answerReading, nextInput)
+        : judgeEnglishInput(s.current.word.question, nextInput);
 
     if (judge.type === "miss") {
       sfx.miss();
@@ -286,8 +289,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     sfx.key();
-    const nextInput = s.input + ch;
-    set({ input: nextInput });
+    set({ input: nextInput, inputProgress: judge.kanaProgress });
 
     if (judge.completed) {
       void completeQuestion(set, get, true);
@@ -295,8 +297,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   onBackspace: () => {
-    if (get().phase !== "playing") return;
-    set((s) => ({ input: s.input.slice(0, -1) }));
+    const s = get();
+    if (s.phase !== "playing") return;
+    const nextInput = s.input.slice(0, -1);
+
+    if (!s.current || nextInput.length === 0) {
+      set({ input: nextInput, inputProgress: 0 });
+      return;
+    }
+
+    const judge =
+      s.direction === "en_to_ja"
+        ? judgeRomajiInput(s.current.answerReading, nextInput)
+        : judgeEnglishInput(s.current.word.question, nextInput);
+
+    set({
+      input: nextInput,
+      inputProgress: judge.type === "match" ? judge.kanaProgress : 0,
+    });
   },
 
   onTimeUp: () => {
@@ -339,6 +357,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       phase: "idle",
       current: null,
       input: "",
+      inputProgress: 0,
       missCount: 0,
       feedback: [],
       summary: null,
@@ -407,6 +426,7 @@ function nextQuestion(
   set({
     current: q,
     input: "",
+    inputProgress: 0,
     missCount: 0,
     hintLevel: "none",
     questionFlash: false,
