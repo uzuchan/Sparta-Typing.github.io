@@ -8,7 +8,7 @@ export function FeedbackLayer() {
 
   useEffect(() => {
     const timers = feedback.map((f) => {
-      const ttl = f.kind === "levelup" ? 1600 : f.kind === "redflash" ? 320 : 650;
+      const ttl = f.kind === "levelup" ? 1600 : 650;
       return setTimeout(() => clearFeedback(f.id), ttl);
     });
     return () => timers.forEach(clearTimeout);
@@ -31,9 +31,6 @@ export function FeedbackLayer() {
               {f.label}
             </div>
           );
-        }
-        if (f.kind === "redflash") {
-          return <div key={f.id} className="red-flash" />;
         }
         return null;
       })}

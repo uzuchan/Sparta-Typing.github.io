@@ -36,7 +36,6 @@ import type {
   WordStats,
 } from "../../types";
 
-const STARTING_HP = 3;
 const ENDLESS_TICK_EVERY = 5;
 const ENDLESS_TIGHTEN = 0.92;
 
@@ -52,9 +51,7 @@ type StartParams = {
 
 type FeedbackEvent =
   | { kind: "score"; value: number; perfect: boolean; id: string }
-  | { kind: "levelup"; label: string; id: string }
-  | { kind: "miss"; id: string }
-  | { kind: "redflash"; id: string };
+  | { kind: "levelup"; label: string; id: string };
 
 type GameStore = {
   phase: Phase;
@@ -75,7 +72,6 @@ type GameStore = {
   questionFlash: boolean;
   recentWordIds: string[];
 
-  hp: number;
   combo: number;
   maxCombo: number;
   noHintStreak: number;
@@ -148,7 +144,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   questionFlash: false,
   recentWordIds: [],
 
-  hp: STARTING_HP,
   combo: 0,
   maxCombo: 0,
   noHintStreak: 0,
@@ -192,7 +187,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       blockIndex: progress.blockIndex,
       restrictWordIds: p.restrictWordIds ?? null,
       targetSeconds: p.targetSeconds,
-      hp: STARTING_HP,
       combo: 0,
       maxCombo: 0,
       noHintStreak: 0,
@@ -288,10 +282,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set((st) => ({ missCount: st.missCount + 1, missFlash: true }));
       setTimeout(() => set({ missFlash: false }), 180);
 
-      // Sparta: miss = lose HP
-      if (s.mode === "sparta") {
-        loseHp(set, get);
-      }
       return;
     }
 
@@ -313,11 +303,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const s = get();
     if (s.phase !== "playing" || !s.current) return;
     sfx.timeup();
-    if (s.mode === "sparta") {
-      // hint fired (full == time up) → already a disqualification path; lose hp
-      loseHp(set, get);
-      if (get().hp <= 0) return; // game over handled
-    }
     void completeQuestion(set, get, false);
   },
 
@@ -431,19 +416,6 @@ function nextQuestion(
   useGameStore.setState({ _questionStartedAt: performance.now() });
 }
 
-function loseHp(
-  set: (fn: (s: GameStore) => Partial<GameStore>) => void,
-  get: () => GameStore
-) {
-  pushFeedback(set, { kind: "redflash" } as Omit<FeedbackEvent, "id">);
-  const nextHp = get().hp - 1;
-  set(() => ({ hp: nextHp, combo: 0 }));
-  if (nextHp <= 0) {
-    sfx.gameover();
-    void completeQuestion(set, get, false, true);
-  }
-}
-
 async function completeQuestion(
   set: (fn: (s: GameStore) => Partial<GameStore>) => void,
   get: () => GameStore,
@@ -455,7 +427,7 @@ async function completeQuestion(
   if (!q || !s._sessionId) return;
 
   const elapsedMs = Math.round(performance.now() - s._questionStartedAt);
-  const finalHint: HintLevel = getHintLevel(elapsedMs, q.timeLimitMs);
+  const finalHint: HintLevel = s.mode === "sparta" ? "none" : getHintLevel(elapsedMs, q.timeLimitMs);
 
   const baseNormal = calcNormalScore({
     isCorrect,
@@ -472,9 +444,9 @@ async function completeQuestion(
   let spartaScore = calcSpartaScore({
     isCorrect,
     elapsedMs,
+    timeLimitMs: q.timeLimitMs,
     hintLevel: finalHint,
     missCount: s.missCount,
-    readingLength: q.targetText.length,
   });
   if (q.isBoss && spartaScore > 0) spartaScore += 50;
 
@@ -586,9 +558,8 @@ async function completeQuestion(
   const sessionEnded =
     forceEnd ||
     after._pendingEnd ||
-    (after.mode === "practice" &&
-      performance.now() - after._sessionStartedAt >= after.targetSeconds * 1000) ||
-    (after.mode === "sparta" && after.hp <= 0);
+    (after.mode !== "endless" &&
+      performance.now() - after._sessionStartedAt >= after.targetSeconds * 1000);
 
   if (sessionEnded) {
     await finalize(set, get);

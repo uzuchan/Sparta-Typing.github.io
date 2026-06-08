@@ -1,6 +1,5 @@
 export {
   Flame,
-  Heart,
   Clock,
   Trophy,
   Swords,

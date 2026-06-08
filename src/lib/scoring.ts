@@ -21,24 +21,18 @@ export function calcNormalScore(params: {
   return 3;
 }
 
-export function calcSpartaLimitMs(readingLength: number): number {
-  const seconds = Math.min(3.0, 2.0 + readingLength * 0.05);
-  return Math.round(seconds * 1000);
-}
-
 export function calcSpartaScore(params: {
   isCorrect: boolean;
   elapsedMs: number;
+  timeLimitMs: number;
   hintLevel: HintLevel;
   missCount: number;
-  readingLength: number;
 }): number {
   if (!params.isCorrect) return 0;
   if (params.hintLevel !== "none") return 0;
   if (params.missCount > 0) return 0;
 
-  const limit = calcSpartaLimitMs(params.readingLength);
-  const ratio = params.elapsedMs / limit;
+  const ratio = params.elapsedMs / params.timeLimitMs;
 
   if (ratio <= 0.6) return 100;
   if (ratio <= 0.8) return 80;

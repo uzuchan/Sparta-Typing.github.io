@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useGameStore } from "./gameStore";
 import { formatClock } from "../../lib/time";
 import { comboMultiplier } from "../../lib/scoring";
-import { Clock, Flame, Heart, Trophy } from "../../ui/icons";
+import { Clock, Flame, Trophy } from "../../ui/icons";
 
 const RANKS = ["D", "C", "B", "A", "S", "SS"];
 
@@ -21,7 +21,6 @@ export function Hud() {
   const targetSeconds = useGameStore((s) => s.targetSeconds);
   const phase = useGameStore((s) => s.phase);
   const combo = useGameStore((s) => s.combo);
-  const hp = useGameStore((s) => s.hp);
   const normalTotal = useGameStore((s) => s.normalTotal);
   const spartaTotal = useGameStore((s) => s.spartaTotal);
   const correctCount = useGameStore((s) => s.correctCount);
@@ -36,7 +35,7 @@ export function Hud() {
   }, [phase]);
 
   const remaining =
-    mode === "practice"
+    mode !== "endless"
       ? Math.max(0, targetSeconds * 1000 - (performance.now() - sessionStartedAt))
       : null;
   const danger = remaining !== null && remaining <= 10000;
@@ -44,7 +43,7 @@ export function Hud() {
   return (
     <div className="hud">
       <div className="hud-top">
-        {mode === "practice" ? (
+        {mode !== "endless" ? (
           <div className={`hud-clock${danger ? " danger" : ""}`}>
             <Clock size={20} />
             {pendingEnd ? "LAST" : formatClock(remaining ?? 0)}
@@ -71,23 +70,10 @@ export function Hud() {
           )}
 
           {mode === "sparta" && (
-            <>
-              <span className="rank-badge">
-                <Trophy size={16} style={{ verticalAlign: "-2px", marginRight: 4 }} />
-                {spartaRank(spartaTotal)}
-              </span>
-              <span className="hp">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Heart
-                    key={i}
-                    size={20}
-                    fill={i < hp ? "var(--danger)" : "none"}
-                    color={i < hp ? "var(--danger)" : "var(--text-muted)"}
-                    style={{ opacity: i < hp ? 1 : 0.4 }}
-                  />
-                ))}
-              </span>
-            </>
+            <span className="rank-badge">
+              <Trophy size={16} style={{ verticalAlign: "-2px", marginRight: 4 }} />
+              {spartaRank(spartaTotal)}
+            </span>
           )}
         </div>
       </div>

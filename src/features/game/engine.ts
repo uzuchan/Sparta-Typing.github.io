@@ -1,5 +1,4 @@
 import { getAnswerDisplay, getAnswerReading } from "../../lib/answerParser";
-import { calcSpartaLimitMs } from "../../lib/scoring";
 import { calcTimeLimitMs, getHintLevel } from "../../lib/time";
 import type { Direction, GameQuestion, HintLevel, Mode, Pool, WordItem, WordStats } from "../../types";
 
@@ -19,9 +18,7 @@ export function buildQuestion(
   const isBoss = mode === "sparta" && stats.masteryLevel <= 1 && stats.seenCount > 0;
 
   let timeLimitMs: number;
-  if (mode === "sparta") {
-    timeLimitMs = calcSpartaLimitMs(targetText.length);
-  } else if (mode === "endless") {
+  if (mode === "endless") {
     timeLimitMs = Math.round(calcTimeLimitMs(targetText.length) * endlessTighten);
   } else {
     timeLimitMs = calcTimeLimitMs(targetText.length);
@@ -60,7 +57,7 @@ export function tick(state: EngineState, now: number): EngineEvent[] {
   const elapsedQ = now - state.questionStartedAt;
   const elapsedS = now - state.sessionStartedAt;
 
-  const level = getHintLevel(elapsedQ, state.timeLimitMs);
+  const level = state.mode === "sparta" ? "none" : getHintLevel(elapsedQ, state.timeLimitMs);
   if (level !== state.hintLevel) {
     events.push({ type: "hint", level });
   }
@@ -69,8 +66,8 @@ export function tick(state: EngineState, now: number): EngineEvent[] {
     events.push({ type: "timeup" });
   }
 
-  // Practice mode has a session time limit. Sparta/Endless do not.
-  if (state.mode === "practice" && elapsedS >= state.targetSeconds * 1000) {
+  // Practice and Sparta use session time; Endless runs until the player exits.
+  if (state.mode !== "endless" && elapsedS >= state.targetSeconds * 1000) {
     events.push({ type: "session_end" });
   }
 

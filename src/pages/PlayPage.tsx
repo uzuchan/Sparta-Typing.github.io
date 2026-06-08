@@ -29,7 +29,7 @@ const MODES: {
     name: "Sparta",
     color: "#ff3b4e",
     icon: Swords,
-    desc: "HP3・短い制限時間・ノーヒント勝負．ミスで体力が減る高難度．",
+    desc: "答えを隠して記憶から打つモード．制限時間はPracticeと同じです．",
   },
   {
     mode: "endless",
@@ -177,7 +177,7 @@ export function PlayPage(props: { bookId: string }) {
             </div>
           </div>
 
-          {mode === "practice" && (
+          {mode !== "endless" && (
             <div>
               <span className="eyebrow">制限時間</span>
               <div className="actions" style={{ marginTop: 8 }}>
@@ -198,7 +198,7 @@ export function PlayPage(props: { bookId: string }) {
         </div>
         {mode === "sparta" && (
           <p className="muted" style={{ fontSize: "0.82rem" }}>
-            Spartaは制限時間が極端に短く，ヒントを使うと得点になりません．HPが尽きると終了です．
+            Spartaは日本語の答えを表示しません．制限時間内に思い出して入力します．
           </p>
         )}
         {mode === "endless" && (

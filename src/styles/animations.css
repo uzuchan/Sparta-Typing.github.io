@@ -198,15 +198,6 @@
   animation: heart-pop 0.25s ease;
 }
 
-.hp {
-  display: inline-flex;
-  gap: 5px;
-}
-
-.hp svg {
-  transition: opacity var(--motion) ease, transform var(--motion) ease;
-}
-
 .rank-badge {
   font-family: var(--font-mono);
   font-weight: 800;
@@ -523,24 +514,6 @@
 .overlay .card {
   width: min(420px, 100%);
   text-align: center;
-}
-
-.red-flash {
-  position: fixed;
-  inset: 0;
-  z-index: 44;
-  pointer-events: none;
-  background: rgba(248, 113, 113, 0.35);
-  animation: fade-out-flash 0.3s ease forwards;
-}
-
-@keyframes fade-out-flash {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
 }
 
 /* result */
