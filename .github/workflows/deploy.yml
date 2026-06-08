@@ -33,8 +33,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # リポジトリ名に合わせて base を決定（例: https://<user>.github.io/<repo>/）
-          VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_BASE: /
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

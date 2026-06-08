@@ -1,10 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// base は GitHub Pages のサブパス公開向け．
-// 例: https://<user>.github.io/sparta-typing/ で公開する場合は "/sparta-typing/"．
-// CI では VITE_BASE をリポジトリ名から設定する（.github/workflows/deploy.yml 参照）．
-const base = process.env.VITE_BASE ?? "/sparta-typing/";
+// This app is published at https://uzuchan.github.io/.
+// Keep the default base at root so built assets resolve on the live site.
+const base = process.env.VITE_BASE ?? "/";
 
 export default defineConfig({
   base,
