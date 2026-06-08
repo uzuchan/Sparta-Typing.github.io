@@ -12,7 +12,7 @@ type Opts = {
 function allowedChar(direction: Direction, key: string): boolean {
   const k = key.toLowerCase();
   if (k.length !== 1) return false;
-  if (direction === "en_to_ja") return /^[a-z\-\u3041-\u3096\u30a1-\u30f6\uff66-\uff9f]$/.test(k);
+  if (direction === "en_to_ja") return /^[a-z\-\u3041-\u309f\u30a1-\u30ff\uff66-\uff9f]$/.test(k);
   return /^[a-z0-9\- ]$/.test(k);
 }
 

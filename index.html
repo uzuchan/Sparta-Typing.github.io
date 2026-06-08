@@ -19,15 +19,23 @@
     <script type="module">
       const isDevHost = ["localhost", "127.0.0.1", "::1"].includes(location.hostname);
 
-      if (isDevHost) {
-        await import("/src/main.tsx");
-      } else {
+      async function loadBuiltApp() {
         const stylesheet = document.createElement("link");
         stylesheet.rel = "stylesheet";
-        stylesheet.href = new URL("./assets/index-CMoGIL0p.css", import.meta.url).href;
+        stylesheet.href = "./assets/main-CMoGIL0p.css";
         document.head.append(stylesheet);
 
-        await import("./assets/index-64Ce-GEL.js");
+        await import(/* @vite-ignore */ "./assets/main-_qOAkfQo.js");
+      }
+
+      if (isDevHost) {
+        try {
+          await import("/src/main.tsx");
+        } catch {
+          await loadBuiltApp();
+        }
+      } else {
+        await loadBuiltApp();
       }
     </script>
   </body>

@@ -4,6 +4,38 @@ type RomajiJudgeResult =
 
 const KANA_RE = /[\u3041-\u3096\u30a1-\u30f6\uff66-\uff9f]/;
 
+const DAKUTEN_MAP: Record<string, string> = {
+  か: "が",
+  き: "ぎ",
+  く: "ぐ",
+  け: "げ",
+  こ: "ご",
+  さ: "ざ",
+  し: "じ",
+  す: "ず",
+  せ: "ぜ",
+  そ: "ぞ",
+  た: "だ",
+  ち: "ぢ",
+  つ: "づ",
+  て: "で",
+  と: "ど",
+  は: "ば",
+  ひ: "び",
+  ふ: "ぶ",
+  へ: "べ",
+  ほ: "ぼ",
+  う: "ゔ",
+};
+
+const HANDAKUTEN_MAP: Record<string, string> = {
+  は: "ぱ",
+  ひ: "ぴ",
+  ふ: "ぷ",
+  へ: "ぺ",
+  ほ: "ぽ",
+};
+
 const ROMAJI_MAP: Record<string, string[]> = {
   あ: ["a"],
   い: ["i"],
@@ -206,6 +238,8 @@ export function normalizeKana(kana: string): string {
   return kana
     .trim()
     .normalize("NFKC")
+    .replace(/\s+([\u3099\u309a])/g, "$1")
+    .normalize("NFC")
     .replace(/[\u30a1-\u30f6]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0x60));
 }
 
@@ -276,6 +310,13 @@ export function judgeRomajiInput(kana: string, input: string): RomajiJudgeResult
 
   if (containsKana(input)) {
     if (!normalizedKana.startsWith(normalizedInputKana)) {
+      if (isPendingVoicedKanaPrefix(normalizedKana, normalizedInputKana)) {
+        return {
+          type: "match",
+          completed: false,
+          kanaProgress: Math.max(0, normalizedInputKana.length - 1),
+        };
+      }
       return { type: "miss" };
     }
 
@@ -312,6 +353,17 @@ export function judgeRomajiInput(kana: string, input: string): RomajiJudgeResult
     completed,
     kanaProgress,
   };
+}
+
+function isPendingVoicedKanaPrefix(target: string, input: string): boolean {
+  if (input.length === 0) return false;
+
+  const stablePrefix = input.slice(0, -1);
+  if (!target.startsWith(stablePrefix)) return false;
+
+  const pendingBase = input[input.length - 1];
+  const targetChar = target[stablePrefix.length];
+  return DAKUTEN_MAP[pendingBase] === targetChar || HANDAKUTEN_MAP[pendingBase] === targetChar;
 }
 
 export function normalizeEnglishInput(text: string): string {
