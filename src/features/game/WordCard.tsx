@@ -1,5 +1,5 @@
 import { useGameStore } from "./gameStore";
-import { kanaToRomajiCandidates } from "../../lib/romaji";
+import { kanaToRomajiCandidates, normalizeKana } from "../../lib/romaji";
 import { MASTERY_META } from "../../lib/mastery";
 import type { GameQuestion } from "../../types";
 
@@ -118,6 +118,16 @@ function computeDoneLength(
   }
   // japanese: approximate kana completed by matching romaji prefix per kana
   const reading = q.answerReading;
+  const normalizedReading = normalizeKana(reading);
+  const normalizedInputKana = normalizeKana(input);
+
+  if (/[\u3041-\u3096\u30a1-\u30f6\uff66-\uff9f]/.test(input)) {
+    if (normalizedReading.startsWith(normalizedInputKana)) {
+      return Math.min(normalizedInputKana.length, reading.length);
+    }
+    return 0;
+  }
+
   const candidates = kanaToRomajiCandidates(reading);
   // find how many leading kana are fully represented
   let best = 0;

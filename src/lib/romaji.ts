@@ -200,7 +200,7 @@ function lastVowel(value: string): string {
   return value.match(VOWEL_RE)?.[0] ?? "";
 }
 
-function normalizeKana(kana: string): string {
+export function normalizeKana(kana: string): string {
   return kana
     .trim()
     .normalize("NFKC")
@@ -265,6 +265,21 @@ export function kanaToRomajiCandidates(kana: string): string[] {
 
 export function judgeRomajiInput(kana: string, input: string): RomajiJudgeResult {
   const normalizedInput = input.toLowerCase();
+  const normalizedKana = normalizeKana(kana);
+  const normalizedInputKana = normalizeKana(input);
+
+  if (/[\u3041-\u3096\u30a1-\u30f6\uff66-\uff9f]/.test(input)) {
+    if (!normalizedKana.startsWith(normalizedInputKana)) {
+      return { type: "miss" };
+    }
+
+    return {
+      type: "match",
+      completed: normalizedKana === normalizedInputKana,
+      kanaProgress: normalizedInputKana.length,
+    };
+  }
+
   const candidates = kanaToRomajiCandidates(kana);
 
   const hasPrefix = candidates.some((candidate) => candidate.startsWith(normalizedInput));
