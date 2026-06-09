@@ -1,0 +1,376 @@
+<mxfile host="65bd71144e">
+    <diagram id="overview" name="1 Project Overview">
+        <mxGraphModel dx="806" dy="513" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="u" value="学習者" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="260" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="app" value="Sparta Typing&lt;br&gt;React + Vite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="250" width="170" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="pages" value="Pages&lt;br&gt;Home / Import / Book / Play / Stats" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="120" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="stores" value="Zustand Stores&lt;br&gt;Library / Game / UI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="250" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="lib" value="Domain Libraries&lt;br&gt;parser / romaji / scoring / mastery" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="380" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="db" value="Dexie&lt;br&gt;spartaTypingDB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="250" width="170" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="idb" value="IndexedDB&lt;br&gt;local-first data" style="shape=cylinder3d;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="980" y="245" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="files" value="CSV / JSON&lt;br&gt;import and backup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="120" width="170" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="audio" value="Web Audio API&lt;br&gt;synthetic SFX" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="390" width="170" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" style="endArrow=block;html=1;rounded=0;" parent="1" source="u" target="app" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" style="endArrow=block;html=1;rounded=0;" parent="1" source="app" target="pages" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" style="endArrow=block;html=1;rounded=0;" parent="1" source="pages" target="stores" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="endArrow=block;html=1;rounded=0;" parent="1" source="stores" target="lib" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" style="endArrow=block;html=1;rounded=0;" parent="1" source="stores" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" style="endArrow=block;html=1;rounded=0;" parent="1" source="db" target="idb" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" style="endArrow=block;html=1;rounded=0;" parent="1" source="files" target="pages" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" style="endArrow=block;html=1;rounded=0;" parent="1" source="app" target="audio" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="modules" name="2 Modules">
+        <mxGraphModel dx="597" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="main" value="main.tsx" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="70" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="app" value="app&lt;br&gt;App / routes / uiStore" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="270" y="70" width="180" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="pages" value="pages&lt;br&gt;Home / Import / Book / Play / Stats / Result" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="70" width="240" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="features" value="features&lt;br&gt;game / library / stats backup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="230" width="240" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="lib" value="lib&lt;br&gt;csv / parser / romaji / mastery / selector / scoring / time / sfx" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="390" width="240" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="db" value="db&lt;br&gt;Dexie schema" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="850" y="230" width="170" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="types" value="types.ts&lt;br&gt;domain records" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="850" y="405" width="170" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" style="endArrow=block;html=1;" parent="1" source="main" target="app" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" style="endArrow=block;html=1;" parent="1" source="app" target="pages" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" style="endArrow=block;html=1;" parent="1" source="pages" target="features" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="endArrow=block;html=1;" parent="1" source="features" target="lib" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" style="endArrow=block;html=1;" parent="1" source="features" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" style="endArrow=block;html=1;" parent="1" source="db" target="types" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" style="endArrow=block;html=1;" parent="1" source="lib" target="types" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="functions" name="3 Functions">
+        <mxGraphModel dx="1343" dy="855" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="import" value="ImportPage.importCsv()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="80" width="190" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="parse" value="parseWordCsv&lt;br&gt;createInitialStats&lt;br&gt;db.transaction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="70" width="190" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="start" value="PlayPage.start()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="220" width="190" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="init" value="gameStore.init&lt;br&gt;getWords / getStatsMap / getProgress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="210" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="next" value="nextQuestion&lt;br&gt;selectNextWord&lt;br&gt;buildQuestion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="210" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="input" value="useTypingInput&lt;br&gt;onChar / onBackspace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="370" width="190" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="judge" value="judgeRomajiInput&lt;br&gt;judgeEnglishInput" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="370" width="190" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="complete" value="completeQuestion&lt;br&gt;score / quality / mastery / attempt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="360" width="220" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="loop" value="useGameLoop&lt;br&gt;tick" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="530" width="190" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="finalize" value="finalize&lt;br&gt;update session / recordDaily / summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="520" width="220" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="stats" value="StatsPage&lt;br&gt;exportBackup / importBackup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="670" width="190" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="backup" value="backup.ts&lt;br&gt;read all stores / bulkPut" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="670" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="db" value="Dexie stores" style="shape=cylinder3d;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="350" width="150" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" style="endArrow=block;html=1;" parent="1" source="import" target="parse" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" style="endArrow=block;html=1;shadow=0;" parent="1" source="parse" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="975" y="110"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e3" style="endArrow=block;html=1;" parent="1" source="start" target="init" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="endArrow=block;html=1;" parent="1" source="init" target="next" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" style="endArrow=block;html=1;" parent="1" source="next" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" style="endArrow=block;html=1;" parent="1" source="input" target="judge" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" style="endArrow=block;html=1;" parent="1" source="judge" target="complete" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" style="endArrow=block;html=1;" parent="1" source="complete" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" style="endArrow=block;html=1;entryX=0.538;entryY=0.991;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="complete" target="next" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e10" style="endArrow=block;html=1;" parent="1" source="loop" target="complete" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e11" style="endArrow=block;html=1;" parent="1" source="complete" target="finalize" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e12" style="endArrow=block;html=1;" parent="1" source="finalize" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e13" style="endArrow=block;html=1;" parent="1" source="stats" target="backup" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e14" style="endArrow=block;html=1;" parent="1" source="backup" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="975" y="700"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="er" name="4 ER">
+        <mxGraphModel dx="806" dy="513" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="book" value="Book&lt;br&gt;id PK&lt;br&gt;title&lt;br&gt;defaultDirection" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="80" width="170" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="unit" value="Unit&lt;br&gt;id PK&lt;br&gt;bookId FK&lt;br&gt;parentUnitId FK" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="60" width="180" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="word" value="WordItem&lt;br&gt;id PK&lt;br&gt;bookId FK&lt;br&gt;unitId FK&lt;br&gt;question / answerRaw" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="250" width="190" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="stat" value="WordStats&lt;br&gt;wordId PK&lt;br&gt;seen / correct / wrong&lt;br&gt;mastery / dueAt" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="250" width="190" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="session" value="Session&lt;br&gt;id PK&lt;br&gt;bookId FK&lt;br&gt;mode / direction&lt;br&gt;score totals" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="500" width="190" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="attempt" value="Attempt&lt;br&gt;id PK&lt;br&gt;sessionId FK&lt;br&gt;wordId FK&lt;br&gt;quality / combo / score" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="500" width="200" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="progress" value="BookProgress&lt;br&gt;bookId PK&lt;br&gt;blockIndex" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="70" width="170" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="daily" value="DailyStat&lt;br&gt;date PK&lt;br&gt;sessionCount&lt;br&gt;totalQuestions" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="500" width="170" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="pref" value="UserPref&lt;br&gt;key PK&lt;br&gt;value" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="870" y="70" width="150" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="1:N" style="endArrow=block;html=1;" parent="1" source="book" target="unit" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="1:N" style="endArrow=block;html=1;" parent="1" source="book" target="word" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="1:N" style="endArrow=block;html=1;" parent="1" source="unit" target="word" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" value="1:1" style="endArrow=block;html=1;" parent="1" source="word" target="stat" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" value="1:N" style="endArrow=block;html=1;" parent="1" source="book" target="session" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" value="1:N" style="endArrow=block;html=1;" parent="1" source="session" target="attempt" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" value="1:N" style="endArrow=block;html=1;" parent="1" source="word" target="attempt" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" value="1:1" style="endArrow=block;html=1;" parent="1" source="book" target="progress" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" value="date summary" style="endArrow=block;html=1;dashed=1;" parent="1" source="daily" target="session" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="data-flow" name="5 Data Flow">
+        <mxGraphModel dx="806" dy="513" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="csv" value="CSV text" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="80" width="130" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="import" value="ImportPage&lt;br&gt;parse and create records" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="75" width="190" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="db" value="IndexedDB&lt;br&gt;Dexie stores" style="shape=cylinder3d;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="510" y="290" width="170" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="library" value="useLibraryStore&lt;br&gt;books / words / progress / streak" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="290" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="play" value="PlayPage / GameStore&lt;br&gt;session state" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="290" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="input" value="Keyboard / mobile input" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="120" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="libs" value="engine / selector / romaji&lt;br&gt;scoring / mastery" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="470" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="stats" value="StatsPage&lt;br&gt;charts / heatmap / weak words" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="500" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="json" value="Backup JSON" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="500" width="130" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" style="endArrow=block;html=1;" parent="1" source="csv" target="import" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" style="endArrow=block;html=1;" parent="1" source="import" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" style="endArrow=block;html=1;" parent="1" source="db" target="library" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="endArrow=block;html=1;" parent="1" source="library" target="play" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" style="endArrow=block;html=1;" parent="1" source="db" target="play" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" style="endArrow=block;html=1;" parent="1" source="input" target="play" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" style="endArrow=block;html=1;" parent="1" source="play" target="libs" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" style="endArrow=block;html=1;" parent="1" source="libs" target="play" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" style="endArrow=block;html=1;" parent="1" source="play" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e10" style="endArrow=block;html=1;" parent="1" source="db" target="stats" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e11" style="endArrow=block;html=1;" parent="1" source="stats" target="json" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e12" style="endArrow=block;html=1;" parent="1" source="json" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="sequence" name="6 Sequences">
+        <mxGraphModel dx="806" dy="513" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="s1" value="CSV登録&lt;br&gt;User -&gt; ImportPage -&gt; parseWordCsv -&gt; Dexie -&gt; refreshBooks -&gt; navigate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="80" width="900" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="s2" value="プレイ開始&lt;br&gt;PlayPage -&gt; gameStore.init -&gt; libraryStore -&gt; Dexie -&gt; startCountdown -&gt; beginPlaying -&gt; nextQuestion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="210" width="900" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3" value="1問回答&lt;br&gt;GameScreen -&gt; useTypingInput -&gt; onChar -&gt; judgeRomajiInput / judgeEnglishInput -&gt; completeQuestion -&gt; save Attempt and WordStats" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="340" width="900" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="s4" value="タイムアップ / セッション終了&lt;br&gt;useGameLoop -&gt; tick -&gt; onTimeUp or requestSessionEnd -&gt; finalize -&gt; update Session -&gt; recordDaily -&gt; ResultPage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="470" width="900" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="s5" value="統計 / バックアップ&lt;br&gt;StatsPage -&gt; read stores -&gt; aggregate charts / weak words -&gt; exportBackup or importBackup -&gt; JSON / Dexie" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="600" width="900" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" style="endArrow=block;html=1;" parent="1" source="s1" target="s2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" style="endArrow=block;html=1;" parent="1" source="s2" target="s3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" style="endArrow=block;html=1;" parent="1" source="s3" target="s4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="endArrow=block;html=1;" parent="1" source="s4" target="s5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
