@@ -1,7 +1,33 @@
 # Sparta Typing
 
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&labelColor=20232a)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-state-orange)
+![Dexie](https://img.shields.io/badge/Dexie-IndexedDB-blue)
+
 英単語タイピング学習アプリ．ローカルファースト（IndexedDB）で，端末内に学習データを保存します．type · master · advance.
-URL：https://uzuchan.github.io/Sparta-Typing.github.io/
+
+**🎮 デモ（ブラウザですぐ遊べます）: https://uzuchan.github.io/Sparta-Typing.github.io/**
+
+## スクリーンショット
+
+<!-- TODO: スクリーンショットを docs/screenshots/ に置いて，下のコメントを外してください．
+     おすすめ構成: ゲーム画面（Practice）/ Spartaモード / 学習記録（ヒートマップ）の3枚．
+     画面収録なら GIF（macOS: Cmd+Shift+5 で録画 → gifski等で変換）が最も伝わります． -->
+<!--
+| ゲーム画面 | 学習記録 |
+| --- | --- |
+| ![ゲーム画面](docs/screenshots/gameplay.png) | ![学習記録](docs/screenshots/stats.png) |
+-->
+
+## 工夫した点
+
+- **間隔反復による出題設計** — 単語ごとに6段階（seed → crown）の習熟度を持たせ，定着度が低い語を優先して再出題するロジックを自作．
+- **1文字単位のローマ字判定** — 「コンピューター」を `konpyuutaa` でも `konpyu-ta-` でも受け付けるなど，複数のローマ字表記のゆれをリアルタイムに判定．
+- **ローカルファースト設計** — サーバ不要．Dexie（IndexedDB）で学習データを端末内に保存し，JSON書き出し/復元で端末移行にも対応．
+- **音声ファイルを使わない効果音** — Web Audio APIで効果音を合成し，アセットなしで軽量に動作．
+- **継続したくなるゲームデザイン** — 10語ブロック解放制・コンボ倍率・HP制のSpartaモードで「もう1回」を誘発する設計．
 
 ## 特徴
 
