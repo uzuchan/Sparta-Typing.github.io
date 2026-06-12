@@ -8,7 +8,7 @@
 
 英単語タイピング学習アプリ．ローカルファースト（IndexedDB）で，端末内に学習データを保存します．type · master · advance.
 
-**🎮 デモ（ブラウザですぐ遊べます）: https://uzuchan.github.io/Sparta-Typing.github.io/**
+**デモ（ブラウザですぐ遊べます）: https://uzuchan.github.io/Sparta-Typing.github.io/**
 
 ## スクリーンショット
 
